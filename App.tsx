@@ -1,8 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-
+import { executeCreateSqliteTables } from './src/database';
 export default function App() {
+  
+  useEffect(() => {
+    executeCreateSqliteTables();
+  });
+
   return (
     <View style={styles.container}> 
         <Text>Open up App.js to start working on your app!</Text>
