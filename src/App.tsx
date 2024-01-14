@@ -5,6 +5,7 @@ import { executeCreateSqliteTables } from './database';
 import { NavigationContainer } from "@react-navigation/native";
 import { ThemeProvider } from 'styled-components';
 import theme from './themes';
+import { Routes } from './routes';
 
 export default function App() {
   
@@ -16,6 +17,7 @@ export default function App() {
     <NavigationContainer>
       <ThemeProvider theme={theme}>
           <StatusBar backgroundColor={theme.COLORS.PRIMARY} />
+          <Routes></Routes>
         </ThemeProvider>
     </NavigationContainer>
   );
