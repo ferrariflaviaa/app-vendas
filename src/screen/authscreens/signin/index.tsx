@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { View, Text } from "react-native";
 import { SigninProps } from "../../../routes/types/authroutes/authscreen";
 import { Container, CustomScrollView, Form, FormKeyboardAvoidingView } from "../../../components/global";
 import { CustomFormInput } from "../../../components/input/CustomFormInput";
 import CustomFormButton from "../../../components/CustomFormButton";
+import { vendasContext } from "../../../context/context";
 
 export const Signin = ({ navigation }: SigninProps) => {
+  const {handleLoginUser} = vendasContext()
   const [signinLoading, setSigninLoading] = useState<boolean>(false);
-  const [DFNOME, setDFNOME] = useState<string>("");
+  const [DFLOGIN, setDFLOGIN] = useState<string>("");
   const [DFSENHA, setDFSENHA] = useState<string>("");
  
   return (
@@ -18,9 +20,9 @@ export const Signin = ({ navigation }: SigninProps) => {
             {/* <CustomLogoApp /> */}
             <CustomFormInput
               type="USERS"
-              placeholder="Tanqueiro"
-              value={DFNOME}
-              onChangeText={setDFNOME}
+              placeholder="Nome"
+              value={DFLOGIN}
+              onChangeText={setDFLOGIN}
             />
             <CustomFormInput
               type="SECRET"
@@ -37,24 +39,22 @@ export const Signin = ({ navigation }: SigninProps) => {
               <CustomFormButton
                 title="Entrar"
                 selectColor="primary"
-                onPress={() => null
-                  // handleLoginUser({
-                  //   DFLOGIN,
-                  //   DFSENHA,
-                  //   setModal,
-                  //   keepConected,
-                  //   setSigninLoading,
-                  //   loadingExistTanker,
-                  // })
+                onPress={() => 
+                  handleLoginUser({
+                    DFLOGIN,
+                    DFSENHA,
+                    setSigninLoading, 
+                    
+                  })
                 }
                 loading={signinLoading}
                 enabled={!signinLoading}
               />
-              <CustomFormButton
+              {/* <CustomFormButton
                 title=" Validar Vendendor"
                 selectColor="secondary"
                 onPress={() => null}
-              />
+              /> */}
             </View>
           </CustomScrollView>
         </Form>

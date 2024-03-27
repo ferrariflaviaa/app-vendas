@@ -7,7 +7,7 @@ interface IInsertTbArmazenamentoProdutor {
 const insertTbUsuario = ({db}:IInsertTbArmazenamentoProdutor):Promise<number> => {
 
 const query = `
-    INSERT INTO TBARMAZENAMENTOPRODUTOR(
+    INSERT INTO TBUSUARIO(
     DFNOME,
     DFSENHA,
     DFIDATANASCIMENTO

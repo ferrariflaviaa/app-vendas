@@ -1,13 +1,13 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 
-import { TankerHeaders } from "../types/TankerHeaders";
+import { SellerHeaders } from "../types/SellerHeaders";
 import { AuthStackType } from "./types/authroutes/authroutes";
 import { Signin } from "../screen/authscreens/signin";
 
 const AuthStack = createNativeStackNavigator<AuthStackType>();
 
-export default function AuthRoutes(headers: TankerHeaders) {
+export default function AuthRoutes(headers: SellerHeaders) {
   return (
     <AuthStack.Navigator
       screenOptions={{ headerShown: false }}
