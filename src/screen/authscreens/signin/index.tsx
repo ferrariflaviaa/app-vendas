@@ -9,8 +9,8 @@ import { vendasContext } from "../../../context/context";
 export const Signin = ({ navigation }: SigninProps) => {
   const {handleLoginUser} = vendasContext()
   const [signinLoading, setSigninLoading] = useState<boolean>(false);
-  const [DFLOGIN, setDFLOGIN] = useState<string>("");
-  const [DFSENHA, setDFSENHA] = useState<string>("");
+  const [DFLOGIN, setDFLOGIN] = useState<string>('1234');
+  const [DFSENHA, setDFSENHA] = useState<string>('1234');
  
   return (
     <Container>

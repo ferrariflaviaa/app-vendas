@@ -17,6 +17,7 @@ import { Alert } from "react-native";
 import { selectLogin } from "../database/TBUSUARIO/SELECT/selectLogin";
 import { getDBConnection } from "../database/connection";
 import { SellerHeaders } from "../types/SellerHeaders";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 interface IUserProviderContext {
@@ -67,8 +68,35 @@ const UserProviderContext = ({ children }: IUserProviderContext) => {
   const [loadSellerMessage, setLoadSellerMessage] = useState("");
   const [headers, setHeaders] = useState<SellerHeaders>();
   const [seller, setSeller] = useState<string[]>();
+  let receiveSeller: string;
 
-
+  const loadSellerData = async () => {
+    try {
+      const responseSeller = await AsyncStorage.getItem(
+        '',
+      );
+      const responseHeaders = await AsyncStorage.getItem(
+        '',
+      );
+      if (responseSeller) {
+        const responseData = await JSON.parse(responseSeller);
+        if (responseData && responseData.keepConected) {
+          setSeller(responseData);
+        }
+        receiveSeller = "Teste";
+      }
+      if (responseHeaders) {
+        const responseData = JSON.parse(responseHeaders);
+        if (responseData) {
+          // _API.defaults.headers = responseData;
+          setHeaders(responseData);
+        }
+      }
+      setLoadingExistSeller(false);
+    } catch (error) {
+      setLoadingExistSeller(false);
+    }
+  };
 
   // const loadSellerData = async () => {
   //   try {
@@ -103,9 +131,12 @@ const UserProviderContext = ({ children }: IUserProviderContext) => {
   }: IHandleLoginUser) => {
     setSigninLoading(true);
     const db = getDBConnection();
-    if (headers) {
-
+    setLoadingExistSeller(true);
+    console.log(  DFLOGIN,DFSENHA,);
+    if (!headers) {
+      
       if (!DFLOGIN || !DFSENHA) {
+        console.log("e")
         setSigninLoading(false);
         // return setModal({
         //   isOpen: true,
@@ -123,21 +154,17 @@ const UserProviderContext = ({ children }: IUserProviderContext) => {
       //     loadingExistSeller,
       //   });
       // }
-
-      if(DFLOGIN === '1234' && DFSENHA === "1234"){
-        // setSeller();
-      }
-      //   selectLogin({db, DFLOGIN, DFSENHA}).then((res)=> {
-      //     if(res){
-      //       navigate();
-      //     }
-
-      // })
-            
+      if(DFLOGIN === '1234' && DFSENHA === '1234'){
+        console.log("Caiu");
+        const data = [DFLOGIN, DFSENHA]
+        setLoadingExistSeller(false);
+        return setSeller(data);
+      }     
        
        
     } else {
       setSigninLoading(false);
+      setLoadingExistSeller(false);
       // return setModal({
       //   isOpen: true,
       //   modalType: 0,
@@ -178,10 +205,8 @@ const UserProviderContext = ({ children }: IUserProviderContext) => {
   );
 
   useEffect(() => {
-    if (validTokenLoading === false) {
-    //  loadTankerData();
-    }
-  }, [!validTokenLoading]);
+    loadSellerData();
+  }, []);
 
   return (
     <Context.Provider
