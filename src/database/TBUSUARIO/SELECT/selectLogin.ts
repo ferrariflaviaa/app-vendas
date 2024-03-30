@@ -1,37 +1,38 @@
 import { SQLiteDatabase } from "react-native-sqlite-storage";
-import { TypeTbUsuario } from "../../../types/typeTbUsuario";
+import { Vendedor } from "../../../types/vendedor";
 
-interface ISelectLogin extends TypeTbUsuario{
+interface ISelectLogin {
   db: SQLiteDatabase;
-  
+  DFLOGIN: string;
+  DFSENHA: string;
 }
 
-const selectLogin = ({db, DFLOGIN, DFSENHA}:ISelectLogin):Promise<TypeTbUsuario> => {
-
-const query = `
-    SELECT NOME, DFSENHA FROM  TBUSUARIO WHERE NOME = ? AND DFSENHA = ?;
-`
-return new Promise((resolver) => {
-  try {
-    db.transaction((tx) => {
-      tx.executeSql(
-        query,
-        [DFLOGIN, DFSENHA],
-        (_, results) => {
-          if(results.row.raw()){
-            resolver(results.row.raw());
-            return results.row.raw();
-
+const selectLogin = ({
+  db,
+  DFLOGIN,
+  DFSENHA,
+}: ISelectLogin): Promise<Vendedor> => {
+  const query = `
+    SELECT DFNOME, DFLOGIN, DFSENHA, DFIDATANASCIMENTO, DFEMAIL, DFTELEFONE, DFCPFCNPJ 
+    FROM TBVENDEDOR 
+    WHERE DFLOGIN = ? AND DFSENHA = ?;
+`;
+  return new Promise((resolve) => {
+    try {
+      db.transaction((tx) => {
+        tx.executeSql(query, [DFLOGIN, DFSENHA], (tx, results) => {
+          if (results.rows.length > 0) {
+            const list: Vendedor[] = results.rows.raw();
+            resolve(list[0]);
+            return list[0];
           }
-        },
-        (error) => console.log("error: ", error),
-      );
-    });
-  } catch (error) {
-    // console.log('error propriedade ', error);
-  }
-});
+          const list = null;
+          resolve(list);
+          return list;
+        });
+      });
+    } catch (error) {}
+  });
 };
 
-
-export {selectLogin}
+export { selectLogin };

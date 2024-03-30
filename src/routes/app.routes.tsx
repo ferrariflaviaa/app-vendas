@@ -5,6 +5,7 @@ import { returnPageName } from "./utils/returnPageName";
 import { screenOptionMetaTank } from "./utils/screenOptionMetaTank";
 import { AppStackType } from "./types/approutes/approutes";
 import { Home } from "../screen/appscreens/home";
+import { ProductPhotography } from "../screen/appscreens/productPhotography";
 
 const AppStack = createNativeStackNavigator<AppStackType>();
 
@@ -19,8 +20,8 @@ export default function AppRoutes() {
         options={{ headerTitle: "Vendas" }}
       />
       <AppStack.Screen
-        name="RegisterScreen"
-        component={() => null}
+        name="ProductPhotography"
+        component={ProductPhotography}
         options={{
           headerShown: false,
         }}

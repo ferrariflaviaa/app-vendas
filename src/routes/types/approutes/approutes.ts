@@ -1,10 +1,10 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 
-export type RegisterStackType = {
-  Register: { First: undefined };
+export type ProductPhotographyStackType = {
+  First: undefined 
 };
 
 export type AppStackType = {
   Home: undefined;
-  RegisterScreen: NavigatorScreenParams<RegisterStackType>;
+  ProductPhotography: NavigatorScreenParams<ProductPhotographyStackType>;
 };

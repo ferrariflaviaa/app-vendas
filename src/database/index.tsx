@@ -1,9 +1,9 @@
-import { createTbUsuario } from "./TBUSUARIO/CREATE/createTbUsuario";
+import { createTbVendedor } from "./TBUSUARIO/CREATE/createTbVendedor";
 import { getDBConnection } from "./connection"
 
 const executeCreateSqliteTables = async() => {
   const db = await getDBConnection();
-  createTbUsuario(db);
+  createTbVendedor(db);
 }
 
 export { executeCreateSqliteTables}

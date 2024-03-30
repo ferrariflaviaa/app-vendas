@@ -18,6 +18,7 @@ import { selectLogin } from "../database/TBUSUARIO/SELECT/selectLogin";
 import { getDBConnection } from "../database/connection";
 import { SellerHeaders } from "../types/SellerHeaders";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Vendedor } from "../types/vendedor";
 
 
 interface IUserProviderContext {
@@ -53,7 +54,7 @@ interface ISaleContext {
   }: IHandleLoginUser) => void;
   loadingExistSeller: boolean;
   headers: SellerHeaders;
-  seller: string[];
+  seller: Vendedor;
   handleSignout: () => void;
   loadSellerMessage: string;
   setLoadSellerMessage: Dispatch<SetStateAction<string>>;
@@ -67,23 +68,23 @@ const UserProviderContext = ({ children }: IUserProviderContext) => {
   const [loadingExistSeller, setLoadingExistSeller] = useState<boolean>(true);
   const [loadSellerMessage, setLoadSellerMessage] = useState("");
   const [headers, setHeaders] = useState<SellerHeaders>();
-  const [seller, setSeller] = useState<string[]>();
-  let receiveSeller: string;
+  const [seller, setSeller] = useState<Vendedor>();
+  let receiveSeller: Vendedor;
 
   const loadSellerData = async () => {
     try {
       const responseSeller = await AsyncStorage.getItem(
-        '',
+        'app_vendas',
       );
       const responseHeaders = await AsyncStorage.getItem(
         '',
       );
       if (responseSeller) {
         const responseData = await JSON.parse(responseSeller);
-        if (responseData && responseData.keepConected) {
+        if (responseData) {
           setSeller(responseData);
         }
-        receiveSeller = "Teste";
+        receiveSeller = responseData;
       }
       if (responseHeaders) {
         const responseData = JSON.parse(responseHeaders);
@@ -98,31 +99,7 @@ const UserProviderContext = ({ children }: IUserProviderContext) => {
     }
   };
 
-  // const loadSellerData = async () => {
-  //   try {
-  //     const responseTanker = await AsyncStorage.getItem("");
-  //     if (responseTanker) {
-  //       const responseData = await JSON.parse(responseTanker);
-  //       if (responseData) {
-  //         setTanker(responseData);
-  //       }
-  //     }
 
-  //     const responseHeaders = await AsyncStorage.getItem(
-  //       "_headers",
-  //     );
-  //     if (responseHeaders) {
-  //       const responseData = await JSON.parse(responseHeaders);
-  //       if (responseData) {
-  //        // _API.defaults.headers = responseData;
-  //         setHeaders(responseData);
-  //       }
-  //     }
-  //     setLoadingExistTanker(false);
-  //   } catch (error) {
-  //     setLoadingExistTanker(false);
-  //   }
-  // };
 
   const handleLoginUser = async ({
     DFLOGIN,
@@ -130,9 +107,9 @@ const UserProviderContext = ({ children }: IUserProviderContext) => {
     setSigninLoading
   }: IHandleLoginUser) => {
     setSigninLoading(true);
-    const db = getDBConnection();
+    const db =  await getDBConnection();
     setLoadingExistSeller(true);
-    console.log(  DFLOGIN,DFSENHA,);
+    console.log(  DFLOGIN,DFSENHA);
     if (!headers) {
       
       if (!DFLOGIN || !DFSENHA) {
@@ -154,15 +131,24 @@ const UserProviderContext = ({ children }: IUserProviderContext) => {
       //     loadingExistSeller,
       //   });
       // }
-      if(DFLOGIN === '1234' && DFSENHA === '1234'){
-        console.log("Caiu");
-        const data = [DFLOGIN, DFSENHA]
+
+      await selectLogin({db, DFLOGIN, DFSENHA}).then((data)=> {
+          setLoadingExistSeller(false);
+           AsyncStorage.setItem(
+            "app_vendas",
+            JSON.stringify(data),
+          );
+          return setSeller(data);
+
+      }).catch((error)=> {
+        console.log(error);
         setLoadingExistSeller(false);
-        return setSeller(data);
-      }     
+        console.log("error");
+      })  
        
        
     } else {
+      console.log("erro")
       setSigninLoading(false);
       setLoadingExistSeller(false);
       // return setModal({
@@ -180,7 +166,7 @@ const UserProviderContext = ({ children }: IUserProviderContext) => {
       {
         text: "Sim",
         onPress: async () => {
-          //await AsyncStorage.removeItem("");
+          await AsyncStorage.removeItem("app_vendas");
           setSeller(null);
           // _API.defaults.headers = null;
           // setHeaders(null);
@@ -200,7 +186,7 @@ const UserProviderContext = ({ children }: IUserProviderContext) => {
 
   useFocusEffect(
     useCallback(() => {
-      //loadTankerData();
+      loadSellerData();
     }, []),
   );
 

@@ -3,14 +3,16 @@ import {
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 
-import { AppStackType, RegisterStackType } from "./approutes";
+import { AppStackType, ProductPhotographyStackType } from "./approutes";
 
 type HomeProps = NativeStackScreenProps<AppStackType, "Home">;
-type RegisterProps = NativeStackScreenProps<RegisterStackType, "Register">;
+type ProductPhotographyProps = NativeStackScreenProps<AppStackType, "ProductPhotography">;
+type ProductPhotographyFirstProps = NativeStackScreenProps<ProductPhotographyStackType, "First">;
 
 type HomeNavigationProps = NativeStackNavigationProp<AppStackType>;
 
 export {
   HomeProps,
-
+  ProductPhotographyProps,
+  ProductPhotographyFirstProps
 };

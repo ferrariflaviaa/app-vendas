@@ -1,17 +1,32 @@
-import { useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { SigninProps } from "../../../routes/types/authroutes/authscreen";
-import { Container, CustomScrollView, Form, FormKeyboardAvoidingView } from "../../../components/global";
+import {
+  Container,
+  CustomScrollView,
+  Form,
+  FormKeyboardAvoidingView,
+} from "../../../components/global";
 import { CustomFormInput } from "../../../components/input/CustomFormInput";
 import CustomFormButton from "../../../components/CustomFormButton";
 import { vendasContext } from "../../../context/context";
+import { insertTbVendedor } from "../../../database/TBUSUARIO/INSERT/insertTbUsuario";
+import { getDBConnection } from "../../../database/connection";
+import { selectLogin } from "../../../database/TBUSUARIO/SELECT/selectLogin";
 
 export const Signin = ({ navigation }: SigninProps) => {
-  const {handleLoginUser} = vendasContext()
+  const { handleLoginUser } = vendasContext();
   const [signinLoading, setSigninLoading] = useState<boolean>(false);
-  const [DFLOGIN, setDFLOGIN] = useState<string>('1234');
-  const [DFSENHA, setDFSENHA] = useState<string>('1234');
- 
+  const [DFLOGIN, setDFLOGIN] = useState<string>("Flavia");
+  const [DFSENHA, setDFSENHA] = useState<string>("1234");
+  const teste = async () => {
+    const db = await getDBConnection();
+    await selectLogin({ db, DFLOGIN: "Flavia", DFSENHA: "1234" });
+  };
+  useEffect(() => {
+    teste();
+  }, []);
+
   return (
     <Container>
       <FormKeyboardAvoidingView>
@@ -39,12 +54,11 @@ export const Signin = ({ navigation }: SigninProps) => {
               <CustomFormButton
                 title="Entrar"
                 selectColor="primary"
-                onPress={() => 
+                onPress={() =>
                   handleLoginUser({
                     DFLOGIN,
                     DFSENHA,
-                    setSigninLoading, 
-                    
+                    setSigninLoading,
                   })
                 }
                 loading={signinLoading}

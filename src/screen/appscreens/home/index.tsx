@@ -27,7 +27,7 @@ export const Home = (screen: HomeProps) => {
           <CustomListOptions>
              <CustomButtonOption
               title="Fotografia produto"
-              onPress={() => handleNavigatePhotography({screen})}
+              onPress={() => handleNavigatePhotography(screen)}
               enabled={true}
             /> 
           </CustomListOptions>
