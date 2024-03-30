@@ -33,7 +33,6 @@ export const Home = (screen: HomeProps) => {
           </CustomListOptions>
         </Content>
       </ScrollView>
-
       )}
     </Container>
   );

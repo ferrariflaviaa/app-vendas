@@ -1,7 +1,7 @@
 import { NavigatorScreenParams } from "@react-navigation/native";
 
 export type ProductPhotographyStackType = {
-  First: undefined 
+  First: undefined;
 };
 
 export type AppStackType = {

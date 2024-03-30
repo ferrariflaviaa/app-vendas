@@ -19,7 +19,7 @@ export const CustomButtonOption = ({
 }: ICustomButtonOptionProps) => {
   return (
     <ContainerCustomButtonOption>
-      <ContentCustomButtonOption>
+      <ContentCustomButtonOption  {...rest}>
         {/* <CustomContainerIcon>{iconButton}</CustomContainerIcon> */}
         <CustomButtonOptionText>{title}</CustomButtonOptionText>
       </ContentCustomButtonOption>

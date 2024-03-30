@@ -3,13 +3,24 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { returnPageName } from "./utils/returnPageName";
 import { screenOptionMetaTank } from "./utils/screenOptionMetaTank";
-import { AppStackType } from "./types/approutes/approutes";
+import { AppStackType, ProductPhotographyStackType } from "./types/approutes/approutes";
 import { Home } from "../screen/appscreens/home";
 import { ProductPhotography } from "../screen/appscreens/productPhotography";
 
 const AppStack = createNativeStackNavigator<AppStackType>();
+const ProductPhotographyStack = createNativeStackNavigator<ProductPhotographyStackType>();
 
-
+const ProductPhotographyAppStack = () => {
+  return (
+    <ProductPhotographyStack.Navigator screenOptions={screenOptionMetaTank}>
+      <ProductPhotographyStack.Screen
+        name="First"
+        component={ProductPhotography}
+        options={{ headerTitle: "Fotografia" }}
+      />
+    </ProductPhotographyStack.Navigator>
+  );
+};
 
 export default function AppRoutes() {
   return (
@@ -21,7 +32,7 @@ export default function AppRoutes() {
       />
       <AppStack.Screen
         name="ProductPhotography"
-        component={ProductPhotography}
+        component={ProductPhotographyAppStack}
         options={{
           headerShown: false,
         }}
