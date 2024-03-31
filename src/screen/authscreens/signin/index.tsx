@@ -13,18 +13,16 @@ import { vendasContext } from "../../../context/context";
 import { insertTbVendedor } from "../../../database/TBUSUARIO/INSERT/insertTbUsuario";
 import { getDBConnection } from "../../../database/connection";
 import { selectLogin } from "../../../database/TBUSUARIO/SELECT/selectLogin";
+import { permissionsMessage } from "../../../utils/permissionsMessage";
 
 export const Signin = ({ navigation }: SigninProps) => {
   const { handleLoginUser } = vendasContext();
   const [signinLoading, setSigninLoading] = useState<boolean>(false);
   const [DFLOGIN, setDFLOGIN] = useState<string>("Flavia");
   const [DFSENHA, setDFSENHA] = useState<string>("1234");
-  const teste = async () => {
-    const db = await getDBConnection();
-    await selectLogin({ db, DFLOGIN: "Flavia", DFSENHA: "1234" });
-  };
+
   useEffect(() => {
-    teste();
+      permissionsMessage();
   }, []);
 
   return (
