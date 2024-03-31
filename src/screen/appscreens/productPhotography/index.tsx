@@ -19,15 +19,16 @@ import {
 import { CustomButtonOption } from "../../../components/CustomButtonOption";
 import { NetInfoCellularGeneration } from "@react-native-community/netinfo";
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import User from "../../../assets/user.svg";
 import { CustomInput } from "../../../components/input/CustomInput";
 import CustomFormButton, {
   ICustomFormButtonRef,
 } from "../../../components/CustomFormButton";
-import { handleChecks } from "./service";
+import { handleChecks, handleSelectImage } from "./service";
 import { Vendedor } from "../../../types/vendedor";
 import { CustomInformSeller } from "../../../components/CustomInformSeller";
+import { CustomSelectedImage } from "../../../components/CustomSelectedImage";
 
 export const ProductPhotography = ({
   navigation,
@@ -36,7 +37,19 @@ export const ProductPhotography = ({
   const [loading, setLoading] = useState<boolean>(false);
   const [cpfCnpj, setCpfCnpj] = useState<string>("11694028607");
   const [seller, setSeller] = useState<Vendedor>();
+  // const [images, setImages] = useState<string[]>([]);
+  const [imagesProblemReport, setImagesProblemReport] = useState<string[]>([]);
   const ref = useRef<ICustomFormButtonRef>(null);
+
+  const dataSelectImage = {
+    imagesProblemReport,
+    setImagesProblemReport,
+  };
+
+  useEffect(() => {
+    console.log(imagesProblemReport);
+  }, [imagesProblemReport]);
+
   return (
     <Container>
       <Content>
@@ -58,9 +71,28 @@ export const ProductPhotography = ({
           {seller ? (
             <View style={{ width: "100%" }}>
               <View style={{ alignItems: "center", marginTop: 20 }}>
-                <User width={100} height={100} color={"black"} />
+                {imagesProblemReport.length > 0 ? (
+                  <CustomSelectedImage
+                    selectedImage={() => null}
+                    label=""
+                    images={imagesProblemReport}
+                    setImages={setImagesProblemReport}
+                    // iconSelect={<User />}
+                  />
+                ) : (
+                  <User width={100} height={100} color={"black"} />
+                )}
+
                 <ContainerView>
-                  <ContainerButton onPress={() => null}>
+                  <ContainerButton
+                    onPress={() =>
+                      handleSelectImage({
+                        data: {
+                          ...dataSelectImage,
+                        },
+                      })
+                    }
+                  >
                     <TextButton>Foto</TextButton>
                   </ContainerButton>
                   <ContainerButton onPress={() => null}>
