@@ -19,16 +19,20 @@ import {
 import { CustomButtonOption } from "../../../components/CustomButtonOption";
 import { NetInfoCellularGeneration } from "@react-native-community/netinfo";
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import User from "../../../assets/user.svg";
 import { CustomInput } from "../../../components/input/CustomInput";
 import CustomFormButton, {
   ICustomFormButtonRef,
 } from "../../../components/CustomFormButton";
-import { handleChecks, handleSelectImage } from "./service";
+import { handleChecks, handleSelectImage, openModal } from "./service";
 import { Vendedor } from "../../../types/vendedor";
 import { CustomInformSeller } from "../../../components/CustomInformSeller";
 import { CustomSelectedImage } from "../../../components/CustomSelectedImage";
+import { ValidModal } from "../../../components/modal/ValidModal";
+import { CustomOpenCloseModal } from "../../../components/modal/CustomOpenImage/styles";
+import { teste } from "../../../utils/messages";
+import { ModalSecondary } from "../../../components/modal/ModalSecondary";
 
 export const ProductPhotography = ({
   navigation,
@@ -40,6 +44,8 @@ export const ProductPhotography = ({
   // const [images, setImages] = useState<string[]>([]);
   const [imagesProblemReport, setImagesProblemReport] = useState<string[]>([]);
   const ref = useRef<ICustomFormButtonRef>(null);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [modalType, setModalType] = useState<0 | 1 | 2 | 3>();
 
   const dataSelectImage = {
     imagesProblemReport,
@@ -116,6 +122,16 @@ export const ProductPhotography = ({
           )}
         </CustomScrollView>
       </Content>
+        <ValidModal
+                  {...{
+                    isOpen,
+                    modalType,
+                    messages: teste,
+                    openModal: () => openModal({ isOpen, setIsOpen }),
+                    setLoading,
+                    handleNavigate: () => null,
+                  }}
+                />
     </Container>
   );
 };
