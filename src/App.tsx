@@ -7,7 +7,7 @@ import { ThemeProvider } from 'styled-components';
 import theme from './themes';
 import { Routes } from './routes';
 import { AppContextProvider } from './context';
-
+import 'react-native-reanimated';
 export default function App() {
   
   useEffect(() => {

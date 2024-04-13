@@ -6,7 +6,7 @@ import { screenOptionMetaTank } from "./utils/screenOptionMetaTank";
 import { AppStackType, ProductPhotographyStackType, QrCodeExampleStackType } from "./types/approutes/approutes";
 import { Home } from "../screen/appscreens/home";
 import { ProductPhotography } from "../screen/appscreens/productPhotography";
-import { QrCodeExample } from "../screen/appscreens/qrCodeExample";
+import { QRCodeExample } from "../screen/appscreens/qrCodeExample";
 
 const AppStack = createNativeStackNavigator<AppStackType>();
 const ProductPhotographyStack = createNativeStackNavigator<ProductPhotographyStackType>();
@@ -28,7 +28,7 @@ const QrCodeExampleAppStack = () => {
     <QrCodeExampleStack.Navigator screenOptions={screenOptionMetaTank}>
       <QrCodeExampleStack.Screen
         name="First"
-        component={QrCodeExample}
+        component={QRCodeExample}
         options={{ headerTitle: "Fotografia" }}
       />
     </QrCodeExampleStack.Navigator>

@@ -1,42 +1,91 @@
+import React, { useRef } from "react";
+import { View, StyleSheet } from "react-native";
 import {
-  ProductPhotographyProps,
-} from "../../../routes/types/approutes/appscreen";
-import {
-  Container,
-  Content,
-  
-} from "../../../components/global";
+  Camera,
+  useCameraDevice,
+  useCodeScanner,
+} from "react-native-vision-camera";
 
-import { useEffect, useRef, useState } from "react";
-import CustomFormButton, {
-  ICustomFormButtonRef,
-} from "../../../components/CustomFormButton";
-import { Vendedor } from "../../../types/vendedor";
+export const QRCodeExample = () => {
+  const cameraRef = useRef(null);
 
 
-export const QrCodeExample = ({
-  navigation,
-  route,
-}: ProductPhotographyProps) => {
-  const [loading, setLoading] = useState<boolean>(false);
-  const [cpfCnpj, setCpfCnpj] = useState<string>("11694028607");
-  const [seller, setSeller] = useState<Vendedor>();
-  // const [images, setImages] = useState<string[]>([]);
-  const [imagesProblemReport, setImagesProblemReport] = useState<string[]>([]);
-  const ref = useRef<ICustomFormButtonRef>(null);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [modalType, setModalType] = useState<0 | 1 | 2 | 3>();
+  const isValidQRStructure = (data) => {
+    return (
+      data &&
+      typeof data === "object" &&
+      "data" in data &&
+      Array.isArray(data.data) &&
+      data.data.every(
+        (item) =>
+          typeof item === "object" &&
+          "nome" in item &&
+          "idade" in item &&
+          typeof item.nome === "string" &&
+          typeof item.idade === "number" 
+      )
+    );
+  };
 
- 
-  useEffect(() => {
-    console.log(imagesProblemReport);
-  }, [imagesProblemReport]);
+
+  const device = useCameraDevice("back"); 
+  if (device == null) {
+    return <View>Erro: Câmera não encontrada.</View>;
+  }
+
+  const codeScanner = useCodeScanner({
+    codeTypes: ["qr", "ean-13"],
+    onCodeScanned: (codes: any) => {
+      let jsonString: any;
+      const qrData = codes[0].value;
+      const precisaReplace =
+        qrData.includes("&#34;") || qrData.includes("&#39;");
+
+      if (precisaReplace) {
+        jsonString = qrData.replace(/&#34;|&#39;/g, '"');
+      } else {
+        jsonString = qrData;
+      }
+      const qrCode: any = JSON.parse(jsonString);
+
+      if (qrCode.data.length > 0) {
+        try {
+          if (isValidQRStructure(qrCode)) {
+            console.log("valido: ", qrCode);
+            // insertDataIntoDatabase(decodedData);
+          } else {
+            console.log("QR Code inválido:", qrCode);
+          }
+        } catch (error) {
+          console.log("Erro ao decodificar QR Code:", error);
+        }
+      }
+    },
+  });
 
   return (
-    <Container>
-      <Content>
-
-      </Content>
-    </Container>
+    <View style={styles.container}>
+      <Camera
+        ref={cameraRef}
+        style={styles.preview}
+        device={device}
+        isActive={true}
+        codeScanner={codeScanner}
+      />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "column",
+    backgroundColor: "black",
+  },
+  preview: {
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+});
+
