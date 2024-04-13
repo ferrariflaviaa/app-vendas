@@ -1,10 +1,10 @@
 import React from 'react';
 import { ModalProps } from 'react-native';
 
-import {
-  returnAppIcons,
-  returnValidIconModal,
-} from '../../../utils/returnAppIcons';
+// import {
+//   returnAppIcons,
+//   returnValidIconModal,
+// } from '../../../utils/returnAppIcons';
 import { CustomTouchableOpacity } from '../../global';
 import {
   ContainerModal,
@@ -42,7 +42,7 @@ export const CustomAlert = ({
     return hasCloseButton ? (
       <CloseButtonModal>
         <CustomTouchableOpacity onPress={() => onRequestClose()}>
-          {returnAppIcons({ icon: 'close' })}
+          {/* {returnAppIcons({ icon: 'close' })} */}
         </CustomTouchableOpacity>
       </CloseButtonModal>
     ) : null;
@@ -61,7 +61,7 @@ export const CustomAlert = ({
       <OverlayModal onPress={() => onRequestClose()}>
         <ContentModal>
           <CustomCloseButton />
-          {returnValidIconModal(icon)}
+          {/* {returnValidIconModal(icon)} */}
           <BodyModal>{body}</BodyModal>
           <CustomButtonModal />
         </ContentModal>

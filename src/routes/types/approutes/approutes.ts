@@ -4,7 +4,12 @@ export type ProductPhotographyStackType = {
   First: undefined;
 };
 
+export type QrCodeExampleStackType = {
+  First: undefined;
+}
+
 export type AppStackType = {
   Home: undefined;
   ProductPhotography: NavigatorScreenParams<ProductPhotographyStackType>;
+  QrCodeExample: NavigatorScreenParams<QrCodeExampleStackType>
 };

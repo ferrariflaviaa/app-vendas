@@ -21,6 +21,7 @@ export const Signin = ({ navigation }: SigninProps) => {
   const [DFLOGIN, setDFLOGIN] = useState<string>("Flavia");
   const [DFSENHA, setDFSENHA] = useState<string>("1234");
 
+  
   useEffect(() => {
       permissionsMessage();
   }, []);

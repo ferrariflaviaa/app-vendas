@@ -109,11 +109,9 @@ const UserProviderContext = ({ children }: IUserProviderContext) => {
     setSigninLoading(true);
     const db =  await getDBConnection();
     setLoadingExistSeller(true);
-    console.log(  DFLOGIN,DFSENHA);
     if (!headers) {
       
       if (!DFLOGIN || !DFSENHA) {
-        console.log("e")
         setSigninLoading(false);
         // return setModal({
         //   isOpen: true,
