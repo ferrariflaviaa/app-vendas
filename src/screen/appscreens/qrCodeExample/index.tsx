@@ -5,6 +5,8 @@ import {
   useCameraDevice,
   useCodeScanner,
 } from "react-native-vision-camera";
+import { insertTbFornecedor } from "../../../database/TBFORNECEDOR/INSERT/insertTbFornecedor";
+import { getDBConnection } from "../../../database/connection";
 
 export const QRCodeExample = () => {
   const cameraRef = useRef(null);
@@ -19,10 +21,20 @@ export const QRCodeExample = () => {
       data.data.every(
         (item) =>
           typeof item === "object" &&
-          "nome" in item &&
-          "idade" in item &&
-          typeof item.nome === "string" &&
-          typeof item.idade === "number" 
+          "DFNOME" in item &&
+          "DFLOGIN" in item &&
+          "DFSENHA" in item &&
+          "DFIDATANASCIMENTO" in item &&
+          "DFEMAIL" in item &&
+          "DFTELEFONE" in item &&
+          "DFCPFCNPJ" in item &&
+          typeof item.DFNOME === "string" &&
+          typeof item.DFLOGIN === "string" &&
+          typeof item.DFSENHA === "string" && 
+          typeof item.DFIDATANASCIMENTO === "string" && 
+          typeof item.DFEMAIL === "string" && 
+          typeof item.DFTELEFONE === "string" && 
+          typeof item.DFCPFCNPJ === "string" 
       )
     );
   };
@@ -31,6 +43,11 @@ export const QRCodeExample = () => {
   const device = useCameraDevice("back"); 
   if (device == null) {
     return <View>Erro: Câmera não encontrada.</View>;
+  }
+
+  const teste = async(data) => {
+    const db = await getDBConnection();
+    insertTbFornecedor({db, data})
   }
 
   const codeScanner = useCodeScanner({
@@ -47,11 +64,11 @@ export const QRCodeExample = () => {
         jsonString = qrData;
       }
       const qrCode: any = JSON.parse(jsonString);
-
       if (qrCode.data.length > 0) {
         try {
           if (isValidQRStructure(qrCode)) {
-            console.log("valido: ", qrCode);
+           
+            teste(qrCode);
             // insertDataIntoDatabase(decodedData);
           } else {
             console.log("QR Code inválido:", qrCode);
