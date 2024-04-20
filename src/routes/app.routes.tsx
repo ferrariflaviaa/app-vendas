@@ -7,6 +7,8 @@ import { AppStackType, ProductPhotographyStackType, QrCodeExampleStackType } fro
 import { Home } from "../screen/appscreens/home";
 import { ProductPhotography } from "../screen/appscreens/productPhotography";
 import { QRCodeExample } from "../screen/appscreens/qrCodeExample";
+import { Settings } from "../screen/appscreens/Settings";
+
 
 const AppStack = createNativeStackNavigator<AppStackType>();
 const ProductPhotographyStack = createNativeStackNavigator<ProductPhotographyStackType>();
@@ -56,6 +58,11 @@ export default function AppRoutes() {
         options={{
           headerShown: false,
         }}
+      />
+      <AppStack.Screen
+        name="Settings"
+        component={Settings}
+        options={{ headerTitle: "Configuração" }}
       />
     </AppStack.Navigator>
   );

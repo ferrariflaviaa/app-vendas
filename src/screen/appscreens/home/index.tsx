@@ -7,7 +7,7 @@ import { CustomButtonOption } from "../../../components/CustomButtonOption";
 import { NetInfoCellularGeneration } from "@react-native-community/netinfo";
 import { useFocusEffect } from "@react-navigation/native";
 import { useCallback, useState } from "react";
-import { handleNavigatePhotography, handleQrCodeExample } from "./service";
+import { handleNavigatePhotography, handleQrCodeExample, handleSettings } from "./service";
 
 export const Home = (screen: HomeProps) => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -33,6 +33,11 @@ export const Home = (screen: HomeProps) => {
              <CustomButtonOption
               title="QrCode"
               onPress={() => handleQrCodeExample(screen)}
+              enabled={true}
+            /> 
+             <CustomButtonOption
+              title="Configuração"
+              onPress={() => handleSettings(screen)}
               enabled={true}
             /> 
           </CustomListOptions>

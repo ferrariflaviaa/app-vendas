@@ -8,9 +8,11 @@ import { AppStackType } from "./approutes";
 type HomeProps = NativeStackScreenProps<AppStackType, "Home">;
 type ProductPhotographyProps = NativeStackScreenProps<AppStackType, "ProductPhotography">;
 type QrCodeExampleProps = NativeStackScreenProps<AppStackType, "QrCodeExample">;
+type SettingsProps = NativeStackScreenProps<AppStackType, "QrCodeExample">;
 
 export {
   HomeProps,
   ProductPhotographyProps,
   QrCodeExampleProps,
+  SettingsProps
 };

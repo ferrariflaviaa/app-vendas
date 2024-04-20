@@ -7,5 +7,8 @@ const handleNavigatePhotography  = ({ navigation }: HomeProps) => {
 const handleQrCodeExample  = ({ navigation }: HomeProps) => {
   navigation.navigate('QrCodeExample', { screen: 'First' });
 };
+const handleSettings  = ({ navigation }: HomeProps) => {
+  navigation.navigate('Settings', { screen: 'First' });
+};
 
-export {handleNavigatePhotography,handleQrCodeExample }
+export {handleNavigatePhotography,handleQrCodeExample, handleSettings }
